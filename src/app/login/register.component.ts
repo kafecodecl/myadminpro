@@ -3,6 +3,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import swal from 'sweetalert';
 
+import { UsuarioService } from '../services/services.index';
+import { Usuario } from '../models/usuario.model';
+import { Router } from '@angular/router';
+
 declare function init_plugins();
 
 @Component({
@@ -15,7 +19,10 @@ export class RegisterComponent implements OnInit {
 
   forma: FormGroup;
 
-  constructor() { }
+  constructor(
+    public _usuarioService: UsuarioService,
+    public router: Router
+  ) { }
 
   sonIguales( campo1: string, campo2: string) {
     return ( group: FormGroup ) => {
@@ -56,8 +63,23 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    console.log('formulario valido:', this.forma.valid);
-    console.log(this.forma.value);
+    // Aqui el formulario es válido
+    // creao un usuario
+    let usuario = new Usuario(
+      this.forma.value.nombre,
+      this.forma.value.email,
+      this.forma.value.password,
+    );
+
+    // llamo al servicio
+    this._usuarioService.crearUsuario( usuario )
+      .subscribe( resp => {
+
+        console.log(resp);
+        this.router.navigate(['/login']);
+
+      });
+
 
   }
 
