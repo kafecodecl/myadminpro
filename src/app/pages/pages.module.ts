@@ -11,12 +11,16 @@ import { PAGES_ROUTES } from './pages.routes';
 // ng2-charts
 import { ChartsModule } from 'node_modules/ng2-charts';
 
+// Pipe Module
+import { PipesModule } from '../pipes/pipes.module';
+
 // Temporal
 import { IncrementadorComponent } from '../components/incrementador/incrementador.component';
 import { GraficoDonaComponent } from '../components/grafico-dona/grafico-dona.component';
 import { AccountSettinsComponent } from './account-settins/account-settins.component';
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
+
 
 
 
@@ -42,7 +46,8 @@ import { RxjsComponent } from './rxjs/rxjs.component';
         SharedModule,
         PAGES_ROUTES,
         FormsModule,
-        ChartsModule
+        ChartsModule,
+        PipesModule
     ]
 })
 

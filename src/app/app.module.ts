@@ -18,6 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Services
 import { ServiceModule } from './services/service.module';
+// import { ImagenPipe } from './pipes/imagen.pipe';
 
 
 
