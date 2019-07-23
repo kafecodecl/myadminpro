@@ -6,6 +6,7 @@ import { URL_SERVICIOS } from 'src/app/config/config';
 import { retry, map, filter } from 'rxjs/operators';
 import swal from 'sweetalert';
 import { Router } from '@angular/router';
+import { SubirArchivoService } from '../services.index';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class UsuarioService {
 
   constructor(
     public http: HttpClient,
-    public router: Router
+    public router: Router,
+    public _subirArchivoService: SubirArchivoService
   ) {
     this.cargarStorage();
   }
@@ -124,6 +126,44 @@ export class UsuarioService {
         return resp.usuario;
       })
     );
+  }
+
+
+  // ***********************************************************************/
+  // Actualizar Usuario
+  // ***********************************************************************/
+  actualizarUsuario( usuario: Usuario ) {
+
+    // Se crea una constante con la ruta del servicio, se obtiene la ruta base del archivo de configuración (config/config.ts)
+    const url = URL_SERVICIOS + '/usuario/' + usuario._id + '?token=' + this.token;
+
+    // Hago la llamada http por post, retornando un observable al cual me puedo suscribir
+    return this.http.put( url, usuario ).pipe(
+      map( (resp: any) => {
+
+        const usuarioDB  = resp.usuario;
+
+        this.guardarStorage(usuarioDB._id, this.token, usuarioDB);
+
+        swal('Usuario Actualizado ', usuario.email, 'success');
+        return true;
+      })
+    );
+  }
+
+  cambiarImagen( archivo: File, id: string ) {
+
+    this._subirArchivoService.subirArchivo(archivo, 'usuarios', id)
+        .then( (resp: any) => {
+          console.log(resp);
+          this.usuario.img = resp.usuarioActualizado.img;
+          swal('Imagen de Usuario Actualizada', this.usuario.nombre, 'success');
+          this.guardarStorage(id, this.token, this.usuario);
+        })
+        .catch( resp => {
+            console.log(resp);
+        });
+
   }
 
 }
