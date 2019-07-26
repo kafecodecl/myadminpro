@@ -6,7 +6,8 @@ import { URL_SERVICIOS } from 'src/app/config/config';
 import { retry, map, filter } from 'rxjs/operators';
 import swal from 'sweetalert';
 import { Router } from '@angular/router';
-import { SubirArchivoService } from '../services.index';
+import { SubirArchivoService } from '../subir-archivo/subir-archivo.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class UsuarioService {
   constructor(
     public http: HttpClient,
     public router: Router,
+    // tslint:disable-next-line: variable-name
     public _subirArchivoService: SubirArchivoService
   ) {
     this.cargarStorage();
@@ -163,6 +165,14 @@ export class UsuarioService {
         .catch( resp => {
             console.log(resp);
         });
+
+  }
+
+  cargarUsuarios( desde: number = 0 ) {
+
+    const url = URL_SERVICIOS + '/usuario?desde=' + desde;
+
+    return this.http.get( url );
 
   }
 
