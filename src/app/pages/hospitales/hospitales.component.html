@@ -1,3 +1,59 @@
-<p>
-  hospitales works!
-</p>
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <!-- Con #input creamos una referencia local -->
+                <input #input type="text" class="form-control" placeholder="Buscar Hospital" (keyup)="buscarHospital( input.value )">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="text-right">
+                    <button class="btn waves-effect waves-light btn-rounded btn-primary">
+                      <i class="fa fa-plus"> Crear Hospital</i>
+                    </button>
+                </div>
+
+                <h3 class="card-title">Hospitales Registrados ( <small>{{ _hospitalServices.totalHospitales }}</small> )</h3>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Foto</th>
+                            <th>Hospital</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let hospital of hospitales">
+                            <td>
+                                <img [src]="hospital.img | imagen:'hospital'" class="img-50 img-circle pointer">
+                            </td>
+                            <td>
+                                <input [(ngModel)]="hospital.nombre" name="nombre" type="text" class="form-control" placeholder="Nombre de hospital">
+                            </td>
+                            <td>
+                                <button (click)="guardarHospital( hospital )" class="btn btn-primary mar-right-5">
+                                  <i class="fa fa-save"></i>
+                                </button>
+                                <button (click)="borrarHospital( hospital )" class="btn btn-danger">
+                                  <i class="fa fa-trash-o"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
