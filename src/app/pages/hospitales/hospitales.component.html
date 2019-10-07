@@ -17,7 +17,7 @@
             <div class="card-body">
 
                 <div class="text-right">
-                    <button class="btn waves-effect waves-light btn-rounded btn-primary">
+                    <button (click)="crearHospital()" class="btn waves-effect waves-light btn-rounded btn-primary">
                       <i class="fa fa-plus"> Crear Hospital</i>
                     </button>
                 </div>
@@ -36,7 +36,7 @@
                     <tbody>
                         <tr *ngFor="let hospital of hospitales">
                             <td>
-                                <img [src]="hospital.img | imagen:'hospital'" class="img-50 img-circle pointer">
+                                <img (click)="actualizarImagen( hospital )" [src]="hospital.img | imagen:'hospital'" class="img-50 pointer">
                             </td>
                             <td>
                                 <input [(ngModel)]="hospital.nombre" name="nombre" type="text" class="form-control" placeholder="Nombre de hospital">
@@ -52,6 +52,13 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <button (click)="cambiarDesde(-5)" class="btn btn-secondary mar-right-5">
+                    Anterior
+                  </button>
+                <button (click)="cambiarDesde(5)" class="btn btn-secondary">
+                    Siguiente
+                  </button>
 
             </div>
         </div>

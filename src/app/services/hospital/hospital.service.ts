@@ -20,12 +20,14 @@ export class HospitalService {
     private _usuarioService: UsuarioService
   ) {}
 
-  cargarHospitales() {
-    const url = URL_SERVICIOS + '/hospital';
+  cargarHospitales( desde: number = 0 ) {
+    const url = URL_SERVICIOS + '/hospital?desde=' + desde;
 
     return this.httpClient.get(url).pipe(
       map((resp: any) => {
-        this.totalHospitales = resp.total;
+
+        // console.log('Total Hospitales: ', resp.conteo);
+        this.totalHospitales = resp.conteo;
         return resp.hospitales;
       })
     );
@@ -39,7 +41,8 @@ export class HospitalService {
 
   borrarHospital(id: string) {
 
-    const url = URL_SERVICIOS + '/hospital/' + id + '?token=' + this._usuarioService.token;
+    let url = URL_SERVICIOS + '/hospital/' + id;
+    url += '?token=' + this._usuarioService.token;
 
     return this.httpClient
       .delete(url)
@@ -52,14 +55,18 @@ export class HospitalService {
       );
   }
 
-  crearHopital(nombre: string) {
-    let url = URL_SERVICIOS + '/hopital';
+  crearHospital(nombre: string) {
+    let url = URL_SERVICIOS + '/hospital';
 
     url += '?token=' + this._usuarioService.token;
 
     return this.httpClient
       .post(url, { nombre })
-      .pipe(map((resp: any) => resp.hospital));
+      .pipe(
+        map((resp: any) => {
+          swal('Hospital Creado con éxito', nombre, 'success');
+        })
+      );
   }
 
   busquedaHospitales(termino: string) {
@@ -70,12 +77,16 @@ export class HospitalService {
 
   actualizarHospital( hospital: Hospital ) {
 
-    let url = URL_SERVICIOS + '/hopital/' + hospital._id;
+    let url = URL_SERVICIOS + '/hospital/' + hospital._id;
 
     url += '?token=' + this._usuarioService.token;
 
     return this.httpClient.put( url, hospital ).pipe(
-      map( (resp: any) => resp.hospital )
+      map( (resp: any) => {
+
+        swal('Hospital Actualizado', hospital.nombre, 'success');
+        return resp.hospital;
+      })
     );
 
   }
