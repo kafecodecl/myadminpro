@@ -14,6 +14,7 @@ export class MedicosComponent implements OnInit {
   totalRegistro: number = 0;
   medicos: Medico[] = [];
   cargando: boolean = true;
+  desde: number = 0; // para el pagnador
 
   constructor(
     public _medicoService: MedicoService
@@ -25,8 +26,9 @@ export class MedicosComponent implements OnInit {
 
   cargarMedicos() {
 
-    this._medicoService.cargarMedicos()
+    this._medicoService.cargarMedicos( this.desde )
         .subscribe( medicos => {
+          this.totalRegistro = this._medicoService.totalMedicos;
           this.medicos = medicos;
         });
 
@@ -74,7 +76,22 @@ export class MedicosComponent implements OnInit {
     });
   }
 
-  cambiarDesde( valor: number ) {}
+  cambiarDesde( valor: number ) {
+
+    const desde = this.desde + valor;
+    console.log('valor ', valor, this.totalRegistro);
+
+    if ( desde >= this.totalRegistro ) {
+      return;
+    }
+
+    if ( desde < 0 ) {
+      return;
+    }
+
+    this.desde += valor;
+    this.cargarMedicos();
+  }
 
   actualizarImagen( medico: any) {}
 

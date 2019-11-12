@@ -11,7 +11,6 @@ import { Hospital } from '../../models/hospital.model';
   providedIn: 'root'
 })
 export class HospitalService {
-
   totalHospitales: number = 0;
 
   constructor(
@@ -20,12 +19,11 @@ export class HospitalService {
     private _usuarioService: UsuarioService
   ) {}
 
-  cargarHospitales( desde: number = 0 ) {
+  cargarHospitales(desde: number = 0) {
     const url = URL_SERVICIOS + '/hospital?desde=' + desde;
 
     return this.httpClient.get(url).pipe(
       map((resp: any) => {
-
         // console.log('Total Hospitales: ', resp.conteo);
         this.totalHospitales = resp.conteo;
         return resp.hospitales;
@@ -34,25 +32,25 @@ export class HospitalService {
   }
 
   obtenerHopital(id: string) {
-    const url = URL_SERVICIOS + '/hopital/' + id;
+    const url = URL_SERVICIOS + '/hospital/' + id;
 
-    return this.httpClient.get(url).pipe(map((resp: any) => resp.hopital));
+    return this.httpClient.get(url).pipe(
+      map((resp: any) => {
+        return resp.hospital;
+      })
+    );
   }
 
   borrarHospital(id: string) {
-
     let url = URL_SERVICIOS + '/hospital/' + id;
     url += '?token=' + this._usuarioService.token;
 
-    return this.httpClient
-      .delete(url)
-      .pipe(
-        map(resp => {
-          // console.log(resp);
-          swal('Hopital Borrado.', 'Eliminado correctamente', 'success');
-        }
-        )
-      );
+    return this.httpClient.delete(url).pipe(
+      map(resp => {
+        // console.log(resp);
+        swal('Hopital Borrado.', 'Eliminado correctamente', 'success');
+      })
+    );
   }
 
   crearHospital(nombre: string) {
@@ -60,13 +58,11 @@ export class HospitalService {
 
     url += '?token=' + this._usuarioService.token;
 
-    return this.httpClient
-      .post(url, { nombre })
-      .pipe(
-        map((resp: any) => {
-          swal('Hospital Creado con éxito', nombre, 'success');
-        })
-      );
+    return this.httpClient.post(url, { nombre }).pipe(
+      map((resp: any) => {
+        swal('Hospital Creado con éxito', nombre, 'success');
+      })
+    );
   }
 
   busquedaHospitales(termino: string) {
@@ -75,19 +71,16 @@ export class HospitalService {
     return this.httpClient.get(url).pipe(map((resp: any) => resp.hospital));
   }
 
-  actualizarHospital( hospital: Hospital ) {
-
+  actualizarHospital(hospital: Hospital) {
     let url = URL_SERVICIOS + '/hospital/' + hospital._id;
 
     url += '?token=' + this._usuarioService.token;
 
-    return this.httpClient.put( url, hospital ).pipe(
-      map( (resp: any) => {
-
+    return this.httpClient.put(url, hospital).pipe(
+      map((resp: any) => {
         swal('Hospital Actualizado', hospital.nombre, 'success');
         return resp.hospital;
       })
     );
-
   }
 }
