@@ -12,6 +12,8 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { HospitalesComponent } from './hospitales/hospitales.component';
 import { MedicosComponent } from './medicos/medicos.component';
 import { MedicoComponent } from './medicos/medico.component';
+import { BusquedaComponent } from './busqueda/busqueda.component';
+import { AdminGuard } from '../services/services.index';
 
 
 
@@ -27,14 +29,15 @@ const pagesRoutes: Routes = [
             { path: 'graficas1', component: Graficas1Component, data: { titulo: 'Gráficas' } },
             { path: 'promesas', component: PromesasComponent, data: { titulo: 'Promesas' } },
             { path: 'rxjs', component: RxjsComponent, data: { titulo: 'Rxjs' } },
-            { path: 'account-settings', component: AccountSettinsComponent, data: { titulo: 'Ajustes del Tema' } },
+            { path: 'account-settings', component: AccountSettinsComponent, data: { titulo: 'Ajustes del Tema' } },            
+            { path: 'perfil', component: ProfileComponent, data: { titulo: 'Perfil de usuario' } },
+            { path: 'busqueda/:termino', component: BusquedaComponent, data: { titulo: 'Buscador' } },
 
             // Mantenimiento
-            { path: 'perfil', component: ProfileComponent, data: { titulo: 'Perfil de usuario' } },
-            { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Mantenimiento de usuario' } },
+            { path: 'usuarios', canActivate: [ AdminGuard ], component: UsuariosComponent, data: { titulo: 'Mantenimiento de usuario' } },
             { path: 'hospitales', component: HospitalesComponent, data: { titulo: 'Mantenimiento de Hospitales' } },
             { path: 'medicos', component: MedicosComponent, data: { titulo: 'Mantenimiento de Medicos' } },
-            { path: 'medico/:id', component: MedicoComponent, data: { titulo: 'Actualziar Médico' } },
+            { path: 'medico/:id', component: MedicoComponent, data: { titulo: 'Crear o Actualizar Médico' } },
             { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
         ]
     }
