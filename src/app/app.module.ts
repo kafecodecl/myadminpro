@@ -19,6 +19,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // Services
 import { ServiceModule } from './services/service.module';
 // import { ImagenPipe } from './pipes/imagen.pipe';
+import { PagesComponent } from './pages/pages.component';
+import { SharedModule } from './shared/shared.module';
 
 
 
@@ -26,16 +28,18 @@ import { ServiceModule } from './services/service.module';
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    PagesComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     APP_ROUTES,
-    PagesModule,
+    // PagesModule,
     FormsModule,
     ReactiveFormsModule,
-    ServiceModule
+    ServiceModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
