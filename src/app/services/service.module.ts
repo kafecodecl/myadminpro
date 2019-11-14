@@ -11,6 +11,7 @@ import { SettingsService,
           MedicoService,
           LoginGuardGuard,
           AdminGuard,
+          VerificaTokenGuard,
           ModalUploadService,
           SubirArchivoService
         } from './services.index';
@@ -27,7 +28,8 @@ import { SettingsService,
     SubirArchivoService,
     ModalUploadService,
     LoginGuardGuard,
-    AdminGuard
+    AdminGuard,
+    VerificaTokenGuard
   ],
   imports: [
     CommonModule,

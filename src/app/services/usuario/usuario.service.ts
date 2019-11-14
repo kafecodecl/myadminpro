@@ -28,6 +28,32 @@ export class UsuarioService {
     this.cargarStorage();
   }
 
+  renuevaToken() {
+    const url = URL_SERVICIOS + '/login/renuevatoken?token=' + this.token;
+
+    console.log('renuevaToken ', this.token);
+
+    return this.http.get(url)
+      .pipe(
+        map( (resp: any) => {
+
+          this.token = resp.token;
+          localStorage.setItem( 'token', this.token );
+          console.log('Token renovado');
+
+        }),
+        catchError((err, caught) => {
+
+          console.log(err);
+          // if (this.token.length <= 0) {
+          swal('Error al autenticar', 'No se puedo renovar el token de autorización', 'error');
+          this.router.navigate(['/login']);
+          // }
+          return empty();
+        })
+      );
+  }
+
   estaLogeado() {
     return ( this.token.length > 5 ) ? true : false;
   }
@@ -113,7 +139,7 @@ export class UsuarioService {
         .pipe(
           map( (resp: any) => {
             this.guardarStorage( resp.id, resp.token, resp.usuario, resp.menu );
-            console.log(resp);
+            console.log('LOGEADO', resp);
             return true;
           }),
           catchError((err, caught) => {
